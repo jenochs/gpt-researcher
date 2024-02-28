@@ -3,6 +3,9 @@ const GPTResearcher = (() => {
       // Not sure, but I think it would be better to add event handlers here instead of in the HTML
       //document.getElementById("startResearch").addEventListener("click", startResearch);
       document.getElementById("copyToClipboard").addEventListener("click", copyToClipboard);
+      document.getElementById("askButton").addEventListener("click", handleAsk);
+      document.getElementById("updateReportButton").addEventListener("click", updateReport);
+
 
       updateState("initial");
     }
@@ -87,6 +90,32 @@ const GPTResearcher = (() => {
       document.body.removeChild(textarea);
     };
 
+    const handleAsk = () => {
+      const reportText = document.getElementById('reportContainer').innerText;
+      // Pass the reportText to a similar function as startResearch, possibly to ask a follow-up question or initiate new research
+      console.log('Report text:', reportText);
+
+      startResearchWithText(reportText);
+    };
+
+    const startResearchWithText = (text) => {
+      // Reset the output and report container just like in startResearch
+      document.getElementById("output").innerHTML = "";
+      document.getElementById("reportContainer").innerHTML = "";
+      updateState("in_progress");
+      // Assuming you have a way to send this text to your backend or research service
+      // This could involve modifying the listenToSockEvents or directly invoking a WebSocket send with the new text
+      // For demonstration, we'll log the text and call listenToSockEvents to simulate starting new research
+      console.log("Starting new research with text:", text);
+      listenToSockEvents(); // You may need to modify this function to handle the new research text
+    };
+
+    const updateReport = () => {
+      // Implementation depends on your specific requirements
+      // For example, refreshing the report data
+      startResearch();
+    };
+
     const updateState = (state) => {
       var status = "";
       switch (state) {
@@ -95,8 +124,9 @@ const GPTResearcher = (() => {
           setReportActionsStatus("disabled");
           break;
         case "finished":
-          status = "Research finished!"
+          status = "Research finished!";
           setReportActionsStatus("enabled");
+          showFollowOnQuestionForm(); // Call to show the follow-on question form
           break;
         case "error":
           status = "Research failed!"
@@ -141,6 +171,23 @@ const GPTResearcher = (() => {
         }
       }
     }
+    const showFollowOnQuestionForm = () => {
+      document.querySelector('.follow-on-question').style.display = 'block'; // Show the follow-on question form
+      document.getElementById('followOnForm').addEventListener('submit', handleFollowOnQuestionSubmit);
+    };
+
+    const handleFollowOnQuestionSubmit = (event) => {
+        event.preventDefault();
+        const followOnQuestion = document.getElementById('followOnQuestion').value;
+        
+        // Logic to handle the follow-on question (similar to startResearch)
+
+        console.log('Follow-on question:', followOnQuestion); 
+
+        // Call startResearch or a similar function here, with updated question.
+
+
+    };
 
     document.addEventListener("DOMContentLoaded", init);
     return {

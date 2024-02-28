@@ -99,6 +99,18 @@
             <a id="downloadLink" href="#" class="btn btn-secondary mt-3" target="_blank">Download as PDF</a>
         </div>
     </div>
+    <!-- Follow-up Question Section-->
+    <div class="follow-on-question" style="display:none;">
+        <h2>Have a follow-on question?</h2>
+        <form id="followOnForm">
+            <div class="form-group">
+                <label for="followOnQuestion">Enter your question:</label>
+                <input type="text" id="followOnQuestion" name="followOnQuestion" class="form-control" required>
+            </div>
+            <button id="askButton" onclick="GPTResearcher.handleAsk()" type="submit" class="btn btn-primary mt-3" style="margin-right: 10px;" >Ask a Question</button>
+            <button id="updateReportButton" onclick="GPTResearcher.updateReport()" type="submit" class="btn btn-primary mt-3" >Update Report</button>
+        </form>
+    </div>
 </main>
 
 <footer>
